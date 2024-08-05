@@ -41,7 +41,7 @@ app.get('/api/users', async (req, res) => {
 
 // Catchall handler to serve the React app for any other request
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
