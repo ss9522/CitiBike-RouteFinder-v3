@@ -9,7 +9,7 @@ client/node_modules/
 
 # Build directories
 dist/
-build/
+# build/
 
 # Environment variables
 .env
@@ -20,3 +20,29 @@ Thumbs.db
 
 # Optional npm cache directory
 .npm
+
+# GitIgnore FrontEnd
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+client/node_modules
+client/.pnp
+client/.pnp.js
+
+# testing
+client/coverage
+
+# production
+# client/build
+
+# misc
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
