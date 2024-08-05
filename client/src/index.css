@@ -22,3 +22,82 @@ code {
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: navy;
+  color: white;
+}
+
+.navbar-logo a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links a {
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.navbar-links a:hover, .navbar-links a:focus {
+  background-color: #004080; /* Slightly deeper blue */
+  border-radius: 5px;
+}
+
+/* Navbar hamburger menu */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.navbar-hamburger .line {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: navy;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+  }
+
+  .navbar-links.open {
+    max-height: 200px; /* Adjust this height based on the number of links */
+  }
+
+  .navbar-links a {
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+}
