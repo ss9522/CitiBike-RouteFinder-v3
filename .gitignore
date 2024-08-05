@@ -1,2 +1,22 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
 node_modules/
 client/node_modules/
+
+# Build directories
+dist/
+build/
+
+# Environment variables
+.env
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
+# Optional npm cache directory
+.npm
