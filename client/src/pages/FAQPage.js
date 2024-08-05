@@ -2,7 +2,7 @@ import React from 'react';
 
 function FAQPage() {
   return (
-    <div>
+    <div className="page-content">
       <h1>Frequently Asked Questions</h1>
       <ul>
         <li>
