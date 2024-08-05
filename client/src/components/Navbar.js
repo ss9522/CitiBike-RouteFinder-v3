@@ -1,4 +1,3 @@
-// client/src/components/Navbar.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
@@ -7,8 +6,12 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
+    console.log('Toggling menu. Current state:', isOpen); // Log current state before toggling
     setIsOpen(!isOpen);
+    console.log('Menu state after toggling:', !isOpen); // Log new state after toggling
   };
+
+  console.log('Navbar component rendered. Menu state:', isOpen); // Log state when component renders
 
   return (
     <nav className="navbar">
