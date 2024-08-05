@@ -8,20 +8,23 @@ import FAQPage from './pages/FAQPage';
 import MapPage from './pages/MapPage';
 import SavedRoutesPage from './pages/SavedRoutesPage';
 import Footer from './components/Footer';
+import VideoBackground from './components/VideoBackground'; // Adjust the path as needed
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/saved-routes" element={<SavedRoutesPage />} />
-      </Routes>
-      <Footer />
+      <VideoBackground>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/saved-routes" element={<SavedRoutesPage />} />
+        </Routes>
+        <Footer />
+      </VideoBackground>
     </Router>
   );
 }
