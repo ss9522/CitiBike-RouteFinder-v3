@@ -16,13 +16,6 @@ code {
     monospace;
 }
 
-/* Universal text wrapping */
-* {
-  word-wrap: break-word;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-
 /* Navbar styling */
 .navbar {
   display: flex;
