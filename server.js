@@ -1,16 +1,17 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('./db'); // Load and run new db.js file
+const mongoose = require('./db'); // Load and run the db.js file
 const User = require('./models/User');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// parsing JSON
+// Middleware for parsing JSON bodies
 app.use(express.json());
 
-// Serve static files from React app
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// API route (example)
 app.get('/api/hello', (req, res) => {
   res.send({ message: 'Hello from the server!' });
 });
@@ -38,6 +39,7 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+// Catchall handler to serve the React app for any other request
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
