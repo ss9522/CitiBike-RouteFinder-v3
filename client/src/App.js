@@ -13,7 +13,8 @@ import VideoBackground from './components/VideoBackground'; // Adjust the path a
 function App() {
   return (
     <Router>
-      <VideoBackground>
+      <VideoBackground />
+      <div className="content-overlay">
         <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -23,8 +24,7 @@ function App() {
           <Route path="/map" element={<MapPage />} />
           <Route path="/saved-routes" element={<SavedRoutesPage />} />
         </Routes>
-        <Footer />
-      </VideoBackground>
+      </div>
     </Router>
   );
 }
