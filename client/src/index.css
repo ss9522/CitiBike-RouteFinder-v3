@@ -134,8 +134,8 @@ code {
 }
 
 .page-content {
-  background: rgba(0, 0, 0, 0.7); /* More opaque grey background */
-  color: white; /* White text for the content */
+  background: rgba(0, 0, 0, 0.7) !important; /* More opaque grey background */
+  color: white !important; /* White text for the content */
   padding: 20px;
   border-radius: 5px;
   min-height: 100vh; /* Ensures the content covers the full height of the viewport */
