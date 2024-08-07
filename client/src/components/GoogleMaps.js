@@ -1,5 +1,5 @@
 // src/components/GoogleMaps.js
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react'; // Add useEffect import
 import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -34,6 +34,10 @@ const GoogleMaps = () => {
       });
     }
   };
+
+  useEffect(() => { // Add useEffect hook
+    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+  }, []);
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
