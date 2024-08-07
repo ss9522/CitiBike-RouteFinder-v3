@@ -47,13 +47,13 @@ const GoogleMaps = () => {
 };
 
 const MapPage = () => (
-  <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-    <div style={containerStyle}>
-      <Map center={center} zoom={12}>
-        <GoogleMaps />
-      </Map>
-    </div>
-  </APIProvider>
-);
+    <APIProvider apiKey={"AIzaSyA16IE_D0J-w-i5LqWcRjHWTWPWmmQxQyA"}>
+      <div style={containerStyle}>
+        <Map center={center} zoom={12}>
+          <GoogleMaps />
+        </Map>
+      </div>
+    </APIProvider>
+  );
 
 export default MapPage;
