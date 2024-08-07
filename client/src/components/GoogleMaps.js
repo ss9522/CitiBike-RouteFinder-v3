@@ -1,6 +1,5 @@
-// src/components/GoogleMaps.js
-import React, { useState, useCallback, useEffect } from 'react'; // Add useEffect import
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
+import { APIProvider, Map, useMap } from '@vis.gl/react-google-maps';
 
 const containerStyle = {
   width: '100%',
@@ -8,54 +7,53 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 40.712776, // Default center (New York City)
+  lat: 40.712776,
   lng: -74.005974,
 };
 
 const GoogleMaps = () => {
   const [directions, setDirections] = useState(null);
-  const [response, setResponse] = useState(null);
+  const map = useMap();
 
-  const directionsCallback = useCallback((res) => {
-    if (res !== null) {
-      setDirections(res);
+  useEffect(() => {
+    if (!map) return;
+
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: 'Central Park, NY',
+        destination: 'Times Square, NY',
+        travelMode: window.google.maps.TravelMode.BICYCLING,
+      },
+      (result, status) => {
+        if (status === window.google.maps.DirectionsStatus.OK) {
+          setDirections(result);
+        } else {
+          console.error(`Error fetching directions ${result}`);
+        }
+      }
+    );
+  }, [map]);
+
+  useEffect(() => {
+    if (directions && map) {
+      const directionsRenderer = new window.google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+      directionsRenderer.setDirections(directions);
     }
-  }, []);
+  }, [directions, map]);
 
-  const handleCalculateRoute = () => {
-    const origin = 'Central Park, NY';
-    const destination = 'Times Square, NY';
-
-    if (origin !== '' && destination !== '') {
-      setResponse({
-        origin,
-        destination,
-        travelMode: 'BICYCLING',
-      });
-    }
-  };
-
-  useEffect(() => { // Add useEffect hook
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
-  }, []);
-
-  return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-        {response !== null && (
-          <DirectionsService options={response} callback={directionsCallback} />
-        )}
-        {directions !== null && (
-          <DirectionsRenderer
-            options={{
-              directions: directions,
-            }}
-          />
-        )}
-      </GoogleMap>
-      <button onClick={handleCalculateRoute}>Calculate Route</button>
-    </LoadScript>
-  );
+  return null;
 };
 
-export default GoogleMaps;
+const MapPage = () => (
+  <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+    <div style={containerStyle}>
+      <Map center={center} zoom={12}>
+        <GoogleMaps />
+      </Map>
+    </div>
+  </APIProvider>
+);
+
+export default MapPage;

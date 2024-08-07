@@ -21,7 +21,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
-          <Route path="/map" element={<MapPage />} />
+          <Route path="/map" element={<MapPage />} /> {/* Updated route for MapPage */}
           <Route path="/saved-routes" element={<SavedRoutesPage />} />
         </Routes>
       </div>
