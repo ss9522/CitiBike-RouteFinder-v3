@@ -9,25 +9,29 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
-app.use(helmet());
-app.use((req, res, next) => {
-  res.removeHeader('Content-Security-Policy');
-  next();
-});
 
+// Helmet middleware with CSP configuration
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://maps.googleapis.com"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        imgSrc: ["'self'", "https://maps.gstatic.com", "data:"],
         connectSrc: ["'self'", "https://maps.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
       },
     },
   })
 );
+
+// Middleware to generate a nonce for inline scripts
+const uuid = require('uuid');
+app.use((req, res, next) => {
+  res.locals.nonce = uuid.v4();
+  next();
+});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
