@@ -9,7 +9,6 @@ import MapPage from './pages/MapPage';
 import SavedRoutesPage from './pages/SavedRoutesPage';
 import Footer from './components/Footer';
 import VideoBackground from './components/VideoBackground'; // Adjust the path as needed
-import GoogleMaps from './components/GoogleMaps';
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/saved-routes" element={<SavedRoutesPage />} />
-          <Route path="/google-maps" element={<GoogleMaps />} />
         </Routes>
       </div>
     </Router>
