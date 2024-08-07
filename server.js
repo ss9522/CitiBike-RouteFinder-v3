@@ -1,5 +1,5 @@
 const express = require('express');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const path = require('path');
 const mongoose = require('./db'); // Load and run the db.js file
 const User = require('./models/User');
@@ -11,20 +11,20 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Helmet middleware with CSP configuration
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://maps.googleapis.com"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        imgSrc: ["'self'", "https://maps.gstatic.com", "data:"],
-        connectSrc: ["'self'", "https://maps.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      },
-    },
-  })
-);
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"],
+//         scriptSrc: ["'self'", "https://maps.googleapis.com"],
+//         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+//         imgSrc: ["'self'", "https://maps.gstatic.com", "data:"],
+//         connectSrc: ["'self'", "https://maps.googleapis.com"],
+//         fontSrc: ["'self'", "https://fonts.gstatic.com"],
+//       },
+//     },
+//   })
+// );
 
 // Middleware to generate a nonce for inline scripts
 const uuid = require('uuid');
