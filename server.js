@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const mongoose = require('./db'); // Load and run the db.js file
 const User = require('./models/User');
@@ -6,8 +7,17 @@ const Route = require('./models/Route'); // Add the Route model
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware for parsing JSON bodies
+// Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
+app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://maps.googleapis.com"],
+    },
+  })
+);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
