@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 3000;
 // Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
 app.use(helmet());
+app.use((req, res, next) => {
+  res.removeHeader('Content-Security-Policy');
+  next();
+});
+
 app.use(
   helmet({
     contentSecurityPolicy: {
