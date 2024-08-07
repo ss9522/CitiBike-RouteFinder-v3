@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('./db'); // Load and run the db.js file
 const User = require('./models/User');
+const Route = require('./models/Route'); // Add the Route model
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -9,9 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Serve static files from the React app
-const buildPath = path.join(__dirname, 'client/build');
-console.log(`Serving static files from ${buildPath}`);
-app.use(express.static(buildPath));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // API route (example)
 app.get('/api/hello', (req, res) => {
@@ -41,16 +40,22 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
+// API route to save a route
+app.post('/api/routes', async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newRoute = new Route({ name });
+    await newRoute.save();
+    res.status(201).json(newRoute);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Catchall handler to serve the React app for any other request
 app.get('*', (req, res) => {
-  const indexPath = path.join(buildPath, 'index.html');
-  console.log(`Serving index.html from ${indexPath}`);
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      console.error(`Error serving index.html: ${err}`);
-      res.status(500).send(err);
-    }
-  });
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 app.listen(PORT, () => {
