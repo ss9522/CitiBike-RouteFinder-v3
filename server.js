@@ -1,119 +1,21 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('./db'); // Existing database connection
-const feedbackPool = require('./feedbackDb'); // New feedback database connection
-const User = require('./models/User');
-const Route = require('./models/Route');
+const { Pool } = require('pg');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const { Pool } = require('pg');
 
+// PostgreSQL connection
 const pool = new Pool({
-  connectionString: process.env.FEEDBACK_DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,
-    sslmode: 'require'
+    rejectUnauthorized: false
   }
 });
 
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
-});
-
-// Test the connection
-pool.connect((err, client, done) => {
-  if (err) {
-    console.error('Error connecting to the database', err);
-  } else {
-    console.log('Successfully connected to the database');
-    done();
-  }
-});
-
-async function createDatabaseIfNotExists() {
-  const client = await pool.connect();
-  try {
-    await client.query('CREATE DATABASE "feedback-db"');
-    console.log('Database created successfully');
-  } catch (err) {
-    if (err.code === '42P04') {
-      console.log('Database already exists');
-    } else {
-      console.error('Error creating database:', err);
-    }
-  } finally {
-    client.release();
-  }
-}
-
-// Call before starting server
-createDatabaseIfNotExists().then(() => {
-  // Start server
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-});
-
-async function createTablesIfNotExist() {
-  const client = await pool.connect();
-  try {
-    await client.query(`
-      CREATE TABLE IF NOT EXISTS feedback (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(100),
-        email VARCHAR(100),
-        message TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-    console.log('Tables created successfully');
-  } catch (err) {
-    console.error('Error creating tables:', err);
-  } finally {
-    client.release();
-  }
-}
-
-// Call this after creating the database
-createDatabaseIfNotExists()
-  .then(createTablesIfNotExist)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  });
-
-// Middleware for parsing JSON bodies and new helmet
+// Middleware
 app.use(express.json());
 
-// Helmet middleware with CSP configuration
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"],
-//         scriptSrc: ["'self'", "https://maps.googleapis.com"],
-//         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-//         imgSrc: ["'self'", "https://maps.gstatic.com", "data:"],
-//         connectSrc: ["'self'", "https://maps.googleapis.com"],
-//         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-//       },
-//     },
-//   })
-// );
-
-// Middleware to generate a nonce for inline scripts
-const uuid = require('uuid');
-app.use((req, res, next) => {
-  res.locals.nonce = uuid.v4();
-  next();
-});
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// API connection test route
+// Test database connection
 app.get('/api/test-db', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
@@ -124,42 +26,7 @@ app.get('/api/test-db', async (req, res) => {
   }
 });
 
-// API routes for users
-app.post('/api/users', async (req, res) => {
-  try {
-    const { name, email } = req.body;
-    const newUser = new User({ name, email });
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-app.get('/api/users', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// API route to save a route
-app.post('/api/routes', async (req, res) => {
-  try {
-    const { name } = req.body;
-    const newRoute = new Route({ name });
-    await newRoute.save();
-    res.status(201).json(newRoute);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
+// Feedback API routes
 app.post('/api/feedback', async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -176,7 +43,7 @@ app.post('/api/feedback', async (req, res) => {
 
 app.get('/api/feedback', async (req, res) => {
   try {
-    const result = await feedbackPool.query('SELECT * FROM feedback ORDER BY created_at DESC');
+    const result = await pool.query('SELECT * FROM feedback ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -184,11 +51,15 @@ app.get('/api/feedback', async (req, res) => {
   }
 });
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // Catchall handler to serve the React app for any other request
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
