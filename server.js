@@ -44,9 +44,15 @@ app.use((req, res, next) => {
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-// API route (example)
-app.get('/api/hello', (req, res) => {
-  res.send({ message: 'Hello from the server!' });
+// API connection test route
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ success: true, time: result.rows[0].now });
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // API routes for users

@@ -13,14 +13,17 @@ function FeedbackForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, message })
       });
-      if (response.ok) {
-        alert('Feedback submitted successfully!');
-        setName('');
-        setEmail('');
-        setMessage('');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit feedback');
       }
+      alert('Feedback submitted successfully!');
+      setName('');
+      setEmail('');
+      setMessage('');
     } catch (error) {
       console.error('Error submitting feedback:', error);
+      alert(`Failed to submit feedback: ${error.message}`);
     }
   };
 
