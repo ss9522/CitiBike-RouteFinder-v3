@@ -36,6 +36,7 @@ function FeedbackForm() {
         placeholder="Name"
         required
       />
+      <br />
       <label htmlFor="email">Email:</label>
       <input
         id="email"
@@ -46,6 +47,7 @@ function FeedbackForm() {
         placeholder="Email"
         required
       />
+      <br />
       <label htmlFor="message">Feedback:</label>
       <textarea
         id="message"
@@ -55,6 +57,7 @@ function FeedbackForm() {
         placeholder="Your feedback"
         required
       />
+      <br />
       <button type="submit">Submit Feedback</button>
     </form>
   );

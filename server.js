@@ -6,7 +6,14 @@ const User = require('./models/User');
 const Route = require('./models/Route');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const { Pool } = require('pg');
 
+const pool = new Pool({
+  connectionString: process.env.FEEDBACK_DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 // Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
 
@@ -78,15 +85,15 @@ app.post('/api/routes', async (req, res) => {
 });
 
 app.post('/api/feedback', async (req, res) => {
-  const { name, email, message } = req.body;
   try {
-    const result = await feedbackPool.query(
+    const { name, email, message } = req.body;
+    const result = await pool.query(
       'INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3) RETURNING *',
       [name, email, message]
     );
     res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
     res.status(500).json({ error: 'An error occurred while submitting feedback' });
   }
 });
