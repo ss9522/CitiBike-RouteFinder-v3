@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import '../pages/FAQ.css'; // Import the CSS file
 
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className={`faq-item ${isOpen ? 'open' : ''}`}>
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
@@ -14,7 +15,7 @@ const FAQItem = ({ question, answer }) => {
         {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </button>
       {isOpen && (
-        <div className="mt-2 text-gray-600">
+        <div className="faq-answer mt-2 text-gray-600">
           {answer}
         </div>
       )}
