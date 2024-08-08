@@ -117,38 +117,39 @@ const GoogleMaps = ({ origin = 'Hudson Yards, NY', destination = 'Chelsea Piers,
       console.log('New zoom:', newZoom);
   });
   
-    return (
-      <div className="google-map-container custom-map">
-        <div className="google-map">
-          <Map 
-            center={mapCenter} 
-            zoom={mapZoom}
-            onCameraChanged={handleCameraChanged}
-          >
-            {isLoading && <div>Loading directions...</div>}
-            {error && <div>Error: {error}</div>}
-            {route && (
-            <div className="route-info">
-              <p>Distance: {route.distance}</p>
-              <p>Duration: {route.duration}</p>
-            </div>
-            )}
-            <div className="route-form">
-            <input
-              type="text"
-              placeholder="Route Name"
-              value={routeName}
-              onChange={(e) => setRouteName(e.target.value)}
-            />
-            <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
-              {isSaving ? 'Saving...' : 'Save Route'}
-            </button>
-            </div>
-          </Map>
-          
-        </div>
+  return (
+    <div className="google-map-container custom-map">
+      <div className="google-map">
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          onCameraChanged={handleCameraChanged}
+        >
+          {isLoading && <div>Loading directions...</div>}
+          {error && <div>Error: {error}</div>}
+        </Map>
       </div>
-    );
+      
+      {route && (
+        <div className="route-info">
+          <p>Distance: {route.distance}</p>
+          <p>Duration: {route.duration}</p>
+        </div>
+      )}
+      
+      <div className="route-form">
+        <input
+          type="text"
+          placeholder="Route Name"
+          value={routeName}
+          onChange={(e) => setRouteName(e.target.value)}
+        />
+        <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
+          {isSaving ? 'Saving...' : 'Save Route'}
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default GoogleMaps;
