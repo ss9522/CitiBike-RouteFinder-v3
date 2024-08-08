@@ -118,39 +118,39 @@ const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 
   });
   
   return (
-    <>
-      <div className="google-map-container custom-map">
-        <div className="google-map">
-          <Map
-            center={mapCenter}
-            zoom={mapZoom}
-            onCameraChanged={handleCameraChanged}
-          >
-            {isLoading && <div>Loading directions...</div>}
-            {error && <div>Error: {error}</div>}
-          </Map>
+    <div className="google-maps-container">
+      <div className="map-container">
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          onCameraChanged={handleCameraChanged}
+        >
+          {isLoading && <div>Loading directions...</div>}
+          {error && <div>Error: {error}</div>}
+        </Map>
+      </div>
+  
+      <div className="info-and-controls">
+        {route && (
+          <div className="route-info">
+            <p>Distance: {route.distance}</p>
+            <p>Duration: {route.duration}</p>
+          </div>
+        )}
+  
+        <div className="route-form">
+          <input
+            type="text"
+            placeholder="Route Name"
+            value={routeName}
+            onChange={(e) => setRouteName(e.target.value)}
+          />
+          <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
+            {isSaving ? 'Saving...' : 'Save Route'}
+          </button>
         </div>
       </div>
-
-      {route && (
-        <div className="route-info">
-          <p>Distance: {route.distance}</p>
-          <p>Duration: {route.duration}</p>
-        </div>
-      )}
-
-      <div className="route-form">
-        <input
-          type="text"
-          placeholder="Route Name"
-          value={routeName}
-          onChange={(e) => setRouteName(e.target.value)}
-        />
-        <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
-          {isSaving ? 'Saving...' : 'Save Route'}
-        </button>
-      </div>
-    </>
+    </div>
   );
 };
 
