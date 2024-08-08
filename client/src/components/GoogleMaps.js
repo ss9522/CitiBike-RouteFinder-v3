@@ -7,7 +7,7 @@ const defaultCenter = {
   lng: -74.005974,
 };
 
-const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, NY' }) => {
+const GoogleMaps = ({ origin = 'Hudson Yards, NY', destination = 'Chelsea Piers, NY' }) => {
   const mapRef = useRef(null);
   const [directions, setDirections] = useState(null);
   const [route, setRoute] = useState(null);
@@ -119,7 +119,7 @@ const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, 
   
     return (
       <div className="google-map-container custom-map">
-        <div classname="google-map">
+        <div className="google-map">
           <Map 
             center={mapCenter} 
             zoom={mapZoom}
