@@ -24,6 +24,7 @@ function App() {
           <Route path="/map" element={<MapPage />} /> {/* Updated route for MapPage */}
           <Route path="/saved-routes" element={<SavedRoutesPage />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
