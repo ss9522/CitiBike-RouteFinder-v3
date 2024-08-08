@@ -70,7 +70,7 @@ code {
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 850px) {
   .navbar-links {
     display: flex;
     flex-direction: column;

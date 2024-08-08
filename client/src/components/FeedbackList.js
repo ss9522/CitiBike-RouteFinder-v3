@@ -22,7 +22,6 @@ function FeedbackList() {
 
   return (
     <div>
-      <h2>Retrieve Feedback</h2>
       <input
         type="email"
         value={email}
