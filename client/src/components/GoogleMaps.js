@@ -1,78 +1,149 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Map, AdvancedMarker, useMap, Pin } from '@vis.gl/react-google-maps';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { Map, Marker, useMap } from '@vis.gl/react-google-maps';
+import './GoogleMaps.css';
 
 const defaultCenter = {
   lat: 40.712776,
   lng: -74.005974,
 };
 
-const locations = [
-  { key: 'location1', position: { lat: 40.712776, lng: -74.005974 } },
-  { key: 'location2', position: { lat: 40.713776, lng: -74.006974 } },
-];
-
 const GoogleMaps = () => {
+  const mapRef = useRef(null);
+  const [pointA, setPointA] = useState(null);
+  const [pointB, setPointB] = useState(null);
+  const [directions, setDirections] = useState(null);
+  const [route, setRoute] = useState(null);
+  const [routeName, setRouteName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [mapZoom, setMapZoom] = useState(12);
-  const [markers, setMarkers] = useState({});
   const map = useMap();
-  const clusterer = useRef(null);
 
-  useEffect(() => {
-    if (!map) return;
-    if (!clusterer.current) {
-      clusterer.current = new MarkerClusterer({ map });
+  const handleMapClick = useCallback((e) => {
+    const clickedLat = e.detail.latLng.lat;
+    const clickedLng = e.detail.latLng.lng;
+    
+    if (!pointA) {
+      setPointA({ lat: clickedLat, lng: clickedLng });
+    } else if (!pointB) {
+      setPointB({ lat: clickedLat, lng: clickedLng });
+    } else {
+      // Reset points if both are already set
+      setPointA({ lat: clickedLat, lng: clickedLng });
+      setPointB(null);
+      setDirections(null);
+      setRoute(null);
     }
-  }, [map]);
+  }, [pointA, pointB]);
 
   useEffect(() => {
-    clusterer.current?.clearMarkers();
-    clusterer.current?.addMarkers(Object.values(markers));
-  }, [markers]);
+    if (directions && map) {
+      const directionsRenderer = new window.google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+      directionsRenderer.setDirections(directions);
+    }
+  }, [directions, map]);
 
-  const setMarkerRef = useCallback((marker, key) => {
-    if (marker && !markers[key]) {
-      setMarkers(prev => ({ ...prev, [key]: marker }));
-    } else if (!marker && markers[key]) {
-      setMarkers(prev => {
-        const newMarkers = { ...prev };
-        delete newMarkers[key];
-        return newMarkers;
+  const handleSaveRoute = async () => {
+    if (!routeName.trim() || !route) {
+      alert('Please enter a route name and ensure a route is selected.');
+      return;
+    }
+
+    setIsSaving(true);
+    const routeData = {
+      name: routeName,
+      startLocation: route.start,
+      endLocation: route.end,
+      distance: route.distance,
+      duration: route.duration,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/routes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(routeData),
       });
-    }
-  }, [markers]);
 
-  const handleMarkerClick = useCallback((event) => {
-    if (!map || !event.latLng) return;
-    console.log('Marker clicked:', event.latLng.toString());
-    map.panTo(event.latLng);
-  }, [map]);
+      if (response.ok) {
+        alert('Route saved successfully!');
+        setRouteName('');
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error saving route.');
+      }
+    } catch (error) {
+      console.error('Failed to save route:', error);
+      alert(`Error saving route: ${error.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleCameraChanged = useCallback((ev) => {
-    setMapCenter(ev.detail.center);
-    setMapZoom(ev.detail.zoom);
-    console.log('Camera changed:', ev.detail);
-  }, []);
+    const newCenter = ev.detail.center;
+    const newZoom = ev.detail.zoom;
+    
+    setMapCenter(newCenter);
+    setMapZoom(newZoom);
 
+    console.log('Camera changed:', ev.detail);
+    console.log('New center:', newCenter);
+    console.log('New zoom:', newZoom);
+  }, []);
+  
   return (
     <div className="google-maps-container">
-      <Map
-        center={mapCenter}
-        zoom={mapZoom}
-        onCameraChanged={handleCameraChanged}
-      >
-        {locations.map((location) => (
-          <AdvancedMarker
-            key={location.key}
-            position={location.position}
-            ref={(marker) => setMarkerRef(marker, location.key)}
-            onClick={handleMarkerClick}
-          >
-            <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'} />
-          </AdvancedMarker>
-        ))}
-      </Map>
+      <div className="map-container">
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          onClick={handleMapClick}
+          onCameraChanged={handleCameraChanged}
+          style={{ width: '100%', height: '100%' }}
+        >
+          {isLoading && <div>Loading directions...</div>}
+          {error && <div>Error: {error}</div>}
+          {pointA && (
+            <Marker position={pointA} />
+          )}
+          {pointB && (
+            <Marker position={pointB} />
+          )}
+        </Map>
+      </div>
+      <div className="selected-points">
+        {pointA && (
+          <p>Point A: {pointA.lat.toFixed(6)}, {pointA.lng.toFixed(6)}</p>
+        )}
+        {pointB && (
+          <p>Point B: {pointB.lat.toFixed(6)}, {pointB.lng.toFixed(6)}</p>
+        )}
+      </div>      
+      <div className="info-and-controls">
+        {route && (
+          <div className="route-info">
+            <p>Distance: {route.distance}</p>
+            <p>Duration: {route.duration}</p>
+          </div>
+        )}
+        <div className="route-form">
+          <input
+            type="text"
+            placeholder="Route Name"
+            value={routeName}
+            onChange={(e) => setRouteName(e.target.value)}
+          />
+          <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
+            {isSaving ? 'Saving...' : 'Save Route'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

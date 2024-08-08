@@ -1,9 +1,9 @@
 const express = require('express');
-// const helmet = require('helmet');
 const path = require('path');
-const mongoose = require('./db'); // Load and run the db.js file
+const mongoose = require('./db'); // Existing database connection
+const feedbackPool = require('./feedbackDb'); // New feedback database connection
 const User = require('./models/User');
-const Route = require('./models/Route'); // Add the Route model
+const Route = require('./models/Route');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -74,6 +74,30 @@ app.post('/api/routes', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/feedback', async (req, res) => {
+  const { name, email, message } = req.body;
+  try {
+    const result = await feedbackPool.query(
+      'INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3) RETURNING *',
+      [name, email, message]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while submitting feedback' });
+  }
+});
+
+app.get('/api/feedback', async (req, res) => {
+  try {
+    const result = await feedbackPool.query('SELECT * FROM feedback ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while retrieving feedback' });
   }
 });
 
