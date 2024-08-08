@@ -26,21 +26,30 @@ function FeedbackForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name:</label>
       <input
+        id="name"
+        name="name"
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Name"
         required
       />
+      <label htmlFor="email">Email:</label>
       <input
+        id="email"
+        name="email"
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         required
       />
+      <label htmlFor="message">Feedback:</label>
       <textarea
+        id="message"
+        name="message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Your feedback"
