@@ -1,36 +1,16 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import React from 'react';
+import FAQ from '../components/FAQ';
+import { faqData } from '../data/faqData';
 
-const FAQItem = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FAQPage = () => {
+  console.log('faqData:', faqData); // Add this line for debugging
 
   return (
-    <div className="border-b border-gray-200 py-4">
-      <button
-        className="flex justify-between items-center w-full text-left"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className="text-lg font-semibold">{question}</span>
-        {isOpen ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
-      </button>
-      {isOpen && (
-        <div className="mt-2 text-gray-600">
-          {answer}
-        </div>
-      )}
+    <div>
+      <h1>Frequently Asked Questions</h1>
+      {faqData ? <FAQ faqData={faqData} /> : <p>Loading...</p>}
     </div>
   );
 };
 
-const FAQ = ({ faqData }) => {
-  return (
-    <div className="max-w-2xl mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-      {faqData.map((item, index) => (
-        <FAQItem key={index} question={item.question} answer={item.answer} />
-      ))}
-    </div>
-  );
-};
-
-export default FAQ;
+export default FAQPage;
