@@ -30,6 +30,60 @@ pool.connect((err, client, done) => {
     done();
   }
 });
+
+async function createDatabaseIfNotExists() {
+  const client = await pool.connect();
+  try {
+    await client.query('CREATE DATABASE "feedback-db"');
+    console.log('Database created successfully');
+  } catch (err) {
+    if (err.code === '42P04') {
+      console.log('Database already exists');
+    } else {
+      console.error('Error creating database:', err);
+    }
+  } finally {
+    client.release();
+  }
+}
+
+// Call before starting server
+createDatabaseIfNotExists().then(() => {
+  // Start server
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+});
+
+async function createTablesIfNotExist() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS feedback (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100),
+        email VARCHAR(100),
+        message TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('Tables created successfully');
+  } catch (err) {
+    console.error('Error creating tables:', err);
+  } finally {
+    client.release();
+  }
+}
+
+// Call this after creating the database
+createDatabaseIfNotExists()
+  .then(createTablesIfNotExist)
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  });
+
 // Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
 
