@@ -2,11 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Map, useMap, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
 import './GoogleMaps.css';
 
-const containerStyle = {
-  width: '100%',
-  height: '100vh',
-};
-
 const defaultCenter = {
   lat: 40.712776,
   lng: -74.005974,

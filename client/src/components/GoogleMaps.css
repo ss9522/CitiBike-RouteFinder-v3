@@ -1,12 +1,26 @@
-.google-map {
+.google-map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .google-map {
     width: 100%;
-    height: calc(100vh - 100px); /* Adjust the 100px value as needed */
-    max-height: 800px; /* Adjust this value for desktop */
+    height: calc(100vh - 140px); /* 100px for top/bottom padding + 40px buffer */
+    max-width: 1200px;
+    max-height: 800px;
   }
   
   @media (max-width: 768px) {
+    .google-map-container {
+      padding: 10px;
+    }
+  
     .google-map {
-      height: calc(100vh - 60px); /* Smaller offset for mobile */
-      max-height: none; /* Remove max-height for mobile */
+      height: calc(100vh - 80px); /* 60px as before + 20px for padding */
+      max-height: none;
     }
   }
