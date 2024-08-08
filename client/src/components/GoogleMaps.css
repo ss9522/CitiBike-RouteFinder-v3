@@ -1,26 +1,54 @@
-.google-map-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+.google-map-container,
+.custom-map .google-map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.google-map,
+.custom-map .google-map {
+  width: 100%;
+  height: calc(100vh - 140px);
+  max-width: 1200px;
+  max-height: 800px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .google-map-container,
+  .custom-map .google-map-container {
+    padding: 10px;
   }
-  
-  .google-map {
-    width: 100%;
-    height: calc(100vh - 140px); /* 100px for top/bottom padding + 40px buffer */
-    max-width: 1200px;
-    max-height: 800px;
+
+  .google-map,
+  .custom-map .google-map {
+    height: calc(100vh - 80px);
+    max-height: none;
   }
-  
-  @media (max-width: 768px) {
-    .google-map-container {
-      padding: 10px;
-    }
-  
-    .google-map {
-      height: calc(100vh - 80px); /* 60px as before + 20px for padding */
-      max-height: none;
-    }
-  }
+}
+
+/* Only use !important for .custom-map if needed to override inline styles */
+.custom-map .google-map-container,
+.custom-map .google-map {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100vh !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  /* ... other properties with !important ... */
+}
+
+.custom-map .google-map > div {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}

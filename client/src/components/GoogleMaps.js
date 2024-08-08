@@ -118,34 +118,37 @@ const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, 
   });
   
     return (
-      <div style={containerStyle}>
-        <Map 
-          center={mapCenter} 
-          zoom={mapZoom}
-          onCameraChanged={handleCameraChanged}
-        >
-        {isLoading && <div>Loading directions...</div>}
-        {error && <div>Error: {error}</div>}
-        {route && (
-          <div className="route-info">
-            <p>Distance: {route.distance}</p>
-            <p>Duration: {route.duration}</p>
-          </div>
-        )}
-        <div className="route-form">
-          <input
-            type="text"
-            placeholder="Route Name"
-            value={routeName}
-            onChange={(e) => setRouteName(e.target.value)}
-          />
-          <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
-            {isSaving ? 'Saving...' : 'Save Route'}
-          </button>
+      <div className="google-map-container custom-map">
+        <div classname="google-map">
+          <Map 
+            center={mapCenter} 
+            zoom={mapZoom}
+            onCameraChanged={handleCameraChanged}
+          >
+            {isLoading && <div>Loading directions...</div>}
+            {error && <div>Error: {error}</div>}
+            {route && (
+            <div className="route-info">
+              <p>Distance: {route.distance}</p>
+              <p>Duration: {route.duration}</p>
+            </div>
+            )}
+            <div className="route-form">
+            <input
+              type="text"
+              placeholder="Route Name"
+              value={routeName}
+              onChange={(e) => setRouteName(e.target.value)}
+            />
+            <button onClick={handleSaveRoute} disabled={isSaving || !route || isLoading}>
+              {isSaving ? 'Saving...' : 'Save Route'}
+            </button>
+            </div>
+          </Map>
+          
         </div>
-      </Map>
-    </div>
-  );
+      </div>
+    );
 };
 
 export default GoogleMaps;
