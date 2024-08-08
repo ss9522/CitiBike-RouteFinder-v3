@@ -79,7 +79,7 @@ code {
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #2c3e50;
+    background-color: #2e6398;
     transition: max-height 0.3s ease-in-out;
     overflow: hidden;
     max-height: 0;
@@ -134,7 +134,7 @@ code {
 }
 
 .page-content {
-  background: rgba(0, 0, 0, 0.7) !important; /* More opaque grey background */
+  background: rgba(0, 0, 0, 0.8) !important; /* More opaque grey background */
   color: white !important; /* White text for the content */
   padding: 20px;
   border-radius: 5px;
