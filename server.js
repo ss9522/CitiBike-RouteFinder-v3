@@ -51,6 +51,29 @@ app.get('/api/feedback', async (req, res) => {
   }
 });
 
+app.get('/api/feedback/byEmail', async (req, res) => {
+  try {
+    const { email } = req.query;
+    console.log('Received request for email:', email);
+    
+    if (!email) {
+      console.log('No email provided');
+      return res.status(400).json({ error: 'Email address is required' });
+    }
+
+    const result = await pool.query(
+      'SELECT * FROM feedback WHERE email = $1 ORDER BY created_at DESC',
+      [email]
+    );
+
+    console.log('Query result:', result.rows);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error retrieving feedback by email:', err);
+    res.status(500).json({ error: 'An error occurred while retrieving feedback' });
+  }
+});
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
