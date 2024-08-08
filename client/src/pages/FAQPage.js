@@ -6,7 +6,7 @@ const FAQPage = () => {
   console.log('faqData:', faqData); // Add this line for debugging
 
   return (
-    <div>
+    <div className="page-content">
       <h1>Frequently Asked Questions</h1>
       {faqData ? <FAQ faqData={faqData} /> : <p>Loading...</p>}
     </div>

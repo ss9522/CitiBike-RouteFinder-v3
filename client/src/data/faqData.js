@@ -24,3 +24,6 @@ const faqData = [
       answer: "Regular Citibike use can improve your urban navigation skills, increase your knowledge of city layouts, and enhance your ability to plan efficient routes. You might also become more attuned to weather patterns and develop a deeper connection with your city's rhythms and changes across seasons."
     }
   ];
+  
+export { faqData };
+  

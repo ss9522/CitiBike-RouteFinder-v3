@@ -11,7 +11,7 @@ const FAQItem = ({ question, answer }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-lg font-semibold">{question}</span>
-        {isOpen ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+        {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </button>
       {isOpen && (
         <div className="mt-2 text-gray-600">
