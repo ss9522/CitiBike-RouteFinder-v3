@@ -12,7 +12,8 @@ const pool = new Pool({
   connectionString: process.env.FEEDBACK_DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  connectionTimeoutMillis: 10000
 });
 // Middleware for parsing JSON bodies and new helmet
 app.use(express.json());
