@@ -30,6 +30,7 @@ function FeedbackForm() {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name:</label>
+      <br />
       <input
         id="name"
         name="name"
@@ -39,8 +40,9 @@ function FeedbackForm() {
         placeholder="Name"
         required
       />
-      <br />
+      <br /><br />
       <label htmlFor="email">Email:</label>
+      <br />
       <input
         id="email"
         name="email"
@@ -50,8 +52,9 @@ function FeedbackForm() {
         placeholder="Email"
         required
       />
-      <br />
+      <br /><br />
       <label htmlFor="message">Feedback:</label>
+      <br />
       <textarea
         id="message"
         name="message"
