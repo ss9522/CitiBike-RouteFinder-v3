@@ -12,7 +12,7 @@ const MapPage = () => {
       <div className="map-page">
         <h1>Map</h1>
         <APIProvider 
-          apiKey={"key=AIzaSyA16IE_D0J-w-i5LqWcRjHWTWPWmmQxQyA"} 
+          apiKey={"AIzaSyA16IE_D0J-w-i5LqWcRjHWTWPWmmQxQyA"} 
           onLoad={handleMapLoad}
         >
           <GoogleMaps />
