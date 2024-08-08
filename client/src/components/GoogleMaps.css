@@ -1,0 +1,12 @@
+.google-map {
+    width: 100%;
+    height: calc(100vh - 100px); /* Adjust the 100px value as needed */
+    max-height: 800px; /* Adjust this value for desktop */
+  }
+  
+  @media (max-width: 768px) {
+    .google-map {
+      height: calc(100vh - 60px); /* Smaller offset for mobile */
+      max-height: none; /* Remove max-height for mobile */
+    }
+  }

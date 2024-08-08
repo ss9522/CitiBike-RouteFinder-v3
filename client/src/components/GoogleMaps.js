@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Map, useMap, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
+import './GoogleMaps.css';
 
 const containerStyle = {
   width: '100%',
@@ -12,6 +13,7 @@ const defaultCenter = {
 };
 
 const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, NY' }) => {
+  const mapRef = useRef(null);
   const [directions, setDirections] = useState(null);
   const [route, setRoute] = useState(null);
   const [routeName, setRouteName] = useState('');
@@ -22,7 +24,14 @@ const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, 
   const [mapZoom, setMapZoom] = useState(12);
   const map = useMap();
 
+  
   useEffect(() => {
+    if (window.google && mapRef.current) {
+      new window.google.maps.Map(mapRef.current, {
+        center: { lat: 40.712776, lng: -74.005974 },
+        zoom: 12,});
+      }
+    
     if (!map) return;
 
     setIsLoading(true);
@@ -98,6 +107,7 @@ const GoogleMaps = ({ origin = 'Central Park, NY', destination = 'Times Square, 
     } finally {
       setIsSaving(false);
     }
+    return <div ref={mapRef} className="google-map" />;
   };
 
   const handleCameraChanged = useCallback((ev) => {
