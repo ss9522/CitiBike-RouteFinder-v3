@@ -1,6 +1,7 @@
 import React from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import GoogleMaps from '../components/GoogleMaps';
+import './MapPage.css'; 
 
 const MapPage = () => {
   const handleMapLoad = () => {

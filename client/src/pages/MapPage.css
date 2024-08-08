@@ -1,0 +1,9 @@
+.map-container {
+    padding: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .map-container {
+      padding: 10px;
+    }
+  }
