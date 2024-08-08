@@ -4,9 +4,11 @@ function FeedbackForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitStatus('Submitting...');
     try {
       const response = await fetch('/api/feedback', {
         method: 'POST',
@@ -17,13 +19,13 @@ function FeedbackForm() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to submit feedback');
       }
-      alert('Feedback submitted successfully!');
+      setSubmitStatus('Feedback submitted successfully!');
       setName('');
       setEmail('');
       setMessage('');
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert(`Failed to submit feedback: ${error.message}`);
+      setSubmitStatus(`Failed to submit feedback: ${error.message}`);
     }
   };
 
@@ -65,6 +67,7 @@ function FeedbackForm() {
       />
       <br />
       <button type="submit">Submit Feedback</button>
+      {submitStatus && <p>{submitStatus}</p>}
     </form>
   );
 }

@@ -30,10 +30,30 @@ app.get('/api/test-db', async (req, res) => {
 app.post('/api/feedback', async (req, res) => {
   try {
     const { name, email, message } = req.body;
-    const result = await pool.query(
-      'INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3) RETURNING *',
-      [name, email, message]
+    
+    // Check if a record with this email already exists
+    const existingRecord = await pool.query(
+      'SELECT * FROM feedback WHERE email = $1',
+      [email]
     );
+
+    let result;
+    if (existingRecord.rows.length > 0) {
+      // Update existing record
+      result = await pool.query(
+        'UPDATE feedback SET name = $1, message = $2, created_at = CURRENT_TIMESTAMP WHERE email = $3 RETURNING *',
+        [name, message, email]
+      );
+      console.log('Feedback updated for email:', email);
+    } else {
+      // Insert new record
+      result = await pool.query(
+        'INSERT INTO feedback (name, email, message) VALUES ($1, $2, $3) RETURNING *',
+        [name, email, message]
+      );
+      console.log('New feedback inserted for email:', email);
+    }
+
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error submitting feedback:', error);
