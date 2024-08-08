@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Map, useMap, MapCameraChangedEvent } from '@vis.gl/react-google-maps';
+import { Map, Marker, useMap } from '@vis.gl/react-google-maps';
 import './GoogleMaps.css';
 
 const defaultCenter = {
@@ -7,8 +7,10 @@ const defaultCenter = {
   lng: -74.005974,
 };
 
-const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 'Battery Park, NY' }) => {
+const GoogleMaps = ({ origin = 'Riverside Park, NY', destination = 'Battery Park, NY' }) => {
   const mapRef = useRef(null);
+  const [pointA, setPointA] = useState(null);
+  const [pointB, setPointB] = useState(null);
   const [directions, setDirections] = useState(null);
   const [route, setRoute] = useState(null);
   const [routeName, setRouteName] = useState('');
@@ -19,43 +21,22 @@ const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 
   const [mapZoom, setMapZoom] = useState(12);
   const map = useMap();
 
-  
-  useEffect(() => {
-    if (window.google && mapRef.current) {
-      new window.google.maps.Map(mapRef.current, {
-        center: { lat: 40.712776, lng: -74.005974 },
-        zoom: 12,});
-      }
+  const handleMapClick = useCallback((e) => {
+    const clickedLat = e.detail.latLng.lat;
+    const clickedLng = e.detail.latLng.lng;
     
-    if (!map) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    const directionsService = new window.google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin,
-        destination,
-        travelMode: window.google.maps.TravelMode.BICYCLING,
-      },
-      (result, status) => {
-        setIsLoading(false);
-        if (status === window.google.maps.DirectionsStatus.OK) {
-          setDirections(result);
-          setRoute({
-            start: result.routes[0].legs[0].start_address,
-            end: result.routes[0].legs[0].end_address,
-            distance: result.routes[0].legs[0].distance.text,
-            duration: result.routes[0].legs[0].duration.text,
-          });
-        } else {
-          console.error(`Error fetching directions: ${status}`);
-          setError(`Error fetching directions: ${status}`);
-        }
-      }
-    );
-  }, [map, origin, destination]);
+    if (!pointA) {
+      setPointA({ lat: clickedLat, lng: clickedLng });
+    } else if (!pointB) {
+      setPointB({ lat: clickedLat, lng: clickedLng });
+    } else {
+      // Reset points if both are already set
+      setPointA({ lat: clickedLat, lng: clickedLng });
+      setPointB(null);
+      setDirections(null);
+      setRoute(null);
+    }
+  }, [pointA, pointB]);
 
   useEffect(() => {
     if (directions && map) {
@@ -102,20 +83,19 @@ const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 
     } finally {
       setIsSaving(false);
     }
-    return <div ref={mapRef} className="google-map" />;
   };
 
   const handleCameraChanged = useCallback((ev) => {
-      const newCenter = ev.detail.center;
-      const newZoom = ev.detail.zoom;
-      
-      setMapCenter(newCenter);
-      setMapZoom(newZoom);
-  
-      console.log('Camera changed:', ev.detail);
-      console.log('New center:', newCenter);
-      console.log('New zoom:', newZoom);
-  });
+    const newCenter = ev.detail.center;
+    const newZoom = ev.detail.zoom;
+    
+    setMapCenter(newCenter);
+    setMapZoom(newZoom);
+
+    console.log('Camera changed:', ev.detail);
+    console.log('New center:', newCenter);
+    console.log('New zoom:', newZoom);
+  }, []);
   
   return (
     <div className="google-maps-container">
@@ -123,13 +103,28 @@ const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 
         <Map
           center={mapCenter}
           zoom={mapZoom}
+          onClick={handleMapClick}
           onCameraChanged={handleCameraChanged}
+          style={{ width: '100%', height: '100%' }}
         >
           {isLoading && <div>Loading directions...</div>}
           {error && <div>Error: {error}</div>}
+          {pointA && (
+            <Marker position={pointA} />
+          )}
+          {pointB && (
+            <Marker position={pointB} />
+          )}
         </Map>
       </div>
-  
+      <div className="selected-points">
+        {pointA && (
+          <p>Point A: {pointA.lat.toFixed(6)}, {pointA.lng.toFixed(6)}</p>
+        )}
+        {pointB && (
+          <p>Point B: {pointB.lat.toFixed(6)}, {pointB.lng.toFixed(6)}</p>
+        )}
+      </div>      
       <div className="info-and-controls">
         {route && (
           <div className="route-info">
@@ -137,7 +132,6 @@ const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 
             <p>Duration: {route.duration}</p>
           </div>
         )}
-  
         <div className="route-form">
           <input
             type="text"
