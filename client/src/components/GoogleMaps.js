@@ -7,7 +7,7 @@ const defaultCenter = {
   lng: -74.005974,
 };
 
-const GoogleMaps = ({ origin = 'Hudson Yards, NY', destination = 'Chelsea Piers, NY' }) => {
+const GoogleMaps = ({ origin = 'NY Waterway Midtown 39th St, NY', destination = 'Battery Park, NY' }) => {
   const mapRef = useRef(null);
   const [directions, setDirections] = useState(null);
   const [route, setRoute] = useState(null);
@@ -118,25 +118,27 @@ const GoogleMaps = ({ origin = 'Hudson Yards, NY', destination = 'Chelsea Piers,
   });
   
   return (
-    <div className="google-map-container custom-map">
-      <div className="google-map">
-        <Map
-          center={mapCenter}
-          zoom={mapZoom}
-          onCameraChanged={handleCameraChanged}
-        >
-          {isLoading && <div>Loading directions...</div>}
-          {error && <div>Error: {error}</div>}
-        </Map>
+    <>
+      <div className="google-map-container custom-map">
+        <div className="google-map">
+          <Map
+            center={mapCenter}
+            zoom={mapZoom}
+            onCameraChanged={handleCameraChanged}
+          >
+            {isLoading && <div>Loading directions...</div>}
+            {error && <div>Error: {error}</div>}
+          </Map>
+        </div>
       </div>
-      
+
       {route && (
         <div className="route-info">
           <p>Distance: {route.distance}</p>
           <p>Duration: {route.duration}</p>
         </div>
       )}
-      
+
       <div className="route-form">
         <input
           type="text"
@@ -148,7 +150,7 @@ const GoogleMaps = ({ origin = 'Hudson Yards, NY', destination = 'Chelsea Piers,
           {isSaving ? 'Saving...' : 'Save Route'}
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
