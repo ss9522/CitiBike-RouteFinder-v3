@@ -47,7 +47,7 @@ const GoogleMaps = () => {
 };
 
 const MapPage = () => (
-    <APIProvider apiKey={"AIzaSyA16IE_D0J-w-i5LqWcRjHWTWPWmmQxQyA"}>
+    <APIProvider apiKey={"key=AIzaSyA16IE_D0J-w-i5LqWcRjHWTWPWmmQxQyA"}>
       <div style={containerStyle}>
         <Map center={center} zoom={12}>
           <GoogleMaps />
