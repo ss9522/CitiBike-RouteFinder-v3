@@ -7,7 +7,7 @@ const defaultCenter = {
   lng: -74.005974,
 };
 
-const GoogleMaps = () => {
+const GoogleMaps = ({ origin = 'Riverside Park, NY', destination = 'Battery Park, NY' }) => {
   const mapRef = useRef(null);
   const [pointA, setPointA] = useState(null);
   const [pointB, setPointB] = useState(null);
@@ -37,37 +37,6 @@ const GoogleMaps = () => {
       setRoute(null);
     }
   }, [pointA, pointB]);
-
-  useEffect(() => {
-    if (!map || !pointA || !pointB) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    const directionsService = new window.google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: pointA,
-        destination: pointB,
-        travelMode: window.google.maps.TravelMode.BICYCLING,
-      },
-      (result, status) => {
-        setIsLoading(false);
-        if (status === window.google.maps.DirectionsStatus.OK) {
-          setDirections(result);
-          setRoute({
-            start: result.routes[0].legs[0].start_address,
-            end: result.routes[0].legs[0].end_address,
-            distance: result.routes[0].legs[0].distance.text,
-            duration: result.routes[0].legs[0].duration.text,
-          });
-        } else {
-          console.error(`Error fetching directions: ${status}`);
-          setError(`Error fetching directions: ${status}`);
-        }
-      }
-    );
-  }, [map, pointA, pointB]);
 
   useEffect(() => {
     if (directions && map) {
