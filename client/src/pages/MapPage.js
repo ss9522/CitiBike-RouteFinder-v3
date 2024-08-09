@@ -11,11 +11,11 @@ const MapPage = () => {
   return (
     <div className="page-content">
       <div className="map-page">
-        <div className="page-content">
+        <div className="page-content" style={{ textAlign: 'center' }}>
           <h1>Map</h1>
           <p>This map shows the location of every single CitiBike docking station in New York City.</p>
           <APIProvider 
-            apiKey={"AIzaSyCPpQ44Ra5k-x_mjUTv2o3XtSjbIIkfbUA"} 
+            apiKey={"YOUR_API_KEY"} 
             onLoad={handleMapLoad}
           >
             <GoogleMaps />

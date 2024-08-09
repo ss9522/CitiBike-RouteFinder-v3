@@ -31,7 +31,6 @@ function FeedbackForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Name:</label>
       <br />
       <input
         id="name"
@@ -43,8 +42,6 @@ function FeedbackForm() {
         required
       />
       <br /><br />
-      <label htmlFor="email">Email:</label>
-      <br />
       <input
         id="email"
         name="email"
@@ -55,8 +52,6 @@ function FeedbackForm() {
         required
       />
       <br /><br />
-      <label htmlFor="message">Feedback:</label>
-      <br />
       <textarea
         id="message"
         name="message"
@@ -65,7 +60,7 @@ function FeedbackForm() {
         placeholder="Your feedback"
         required
       />
-      <br />
+      <br /><br />
       <button type="submit">Submit Feedback</button>
       {submitStatus && <p>{submitStatus}</p>}
     </form>

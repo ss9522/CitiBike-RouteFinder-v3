@@ -141,15 +141,13 @@ code {
   min-height: 100vh; /* Ensures the content covers the full height of the viewport */
 }
 
-ul li, ol li {
-  color: white; /* For unordered and ordered lists */
+a {
+  color: white; /* Set the link color to white */
+  text-decoration: none; /* Remove the default underline */
+  font-weight: bold; /* Keep the bold text as per your HTML */
+  transition: text-decoration 0.3s ease; /* Smooth transition for underline */
 }
 
-ul li a, ol li a {
-  color: white; /* For links inside both unordered and ordered lists */
-  text-decoration: none;
-}
-
-ul li a:hover, ol li a:hover {
-  text-decoration: underline;
+a:hover {
+  text-decoration: underline; /* Add underline on hover */
 }

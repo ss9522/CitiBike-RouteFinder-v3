@@ -6,7 +6,7 @@ const FAQPage = () => {
   console.log('faqData:', faqData); // Add this line for debugging
 
   return (
-    <div className="page-content">
+    <div className="page-content" style={{ textAlign: 'center' }}>
       <h1>Frequently Asked Questions</h1>
       {faqData ? <FAQ faqData={faqData} /> : <p>Loading...</p>}
     </div>

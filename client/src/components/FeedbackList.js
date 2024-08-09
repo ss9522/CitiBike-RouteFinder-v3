@@ -28,7 +28,7 @@ function FeedbackList() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter email address"
       />
-      <br />
+      <br /><br />
       <button onClick={fetchFeedback}>Fetch Feedback</button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
