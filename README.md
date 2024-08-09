@@ -19,7 +19,7 @@
 ### 1. Google Maps API Key Storage: 
 Storing the Google Maps API key in an environment variable proved difficult due to the API's front-end implementation. This challenge limited my ability to secure the key properly.
 ### 2. MongoDB Integration: 
-I initially planned to use MongoDB for storing user routing data. However, I observed some big limitations when it came to integrating Google APIs with database operations. Unfortunately, I was unable to overcome these challenges within the given project timeline. 
+I initially planned to use MongoDB for storing user routing data. However, I observed some big limitations (with me 🙂) when it came to integrating Google APIs with database operations. Unfortunately, I was unable to overcome these challenges within the given project timeline. 
 ### 3. Complex Documentation: 
 The documentation for the React Google Maps API was initially confusing. I was therefore unable fully leverage the API's features, delaying key components of the application.
 
