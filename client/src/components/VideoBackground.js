@@ -17,9 +17,13 @@ const VideoBackground = () => {
     const handleVideoEnd = () => {
       setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
     };
+    
     videoElement.addEventListener('ended', handleVideoEnd);
     videoElement.src = videoSources[currentVideoIndex];
-    videoElement.play().catch(error => console.error("Error playing video:", error));
+    videoElement
+      .play()
+      .catch(error => console.error("Error playing video:", error));
+    
     return () => {
       videoElement.removeEventListener('ended', handleVideoEnd);
     };
@@ -27,7 +31,7 @@ const VideoBackground = () => {
 
   return (
     <div className="video-background">
-      <video id="background-video" ref={videoRef} autoPlay muted>
+      <video id="background-video" ref={videoRef} autoPlay muted playsInline>
         Your browser does not support the video tag.
       </video>
     </div>
