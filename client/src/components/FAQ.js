@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import '../pages/FAQ.css'; // Import the CSS file
+import '../pages/FAQ.css'; // Importing CSS file
 
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (

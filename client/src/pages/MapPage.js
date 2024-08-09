@@ -11,13 +11,16 @@ const MapPage = () => {
   return (
     <div className="page-content">
       <div className="map-page">
-        <h1>Map</h1>
-        <APIProvider 
-          apiKey={"AIzaSyCPpQ44Ra5k-x_mjUTv2o3XtSjbIIkfbUA"} 
-          onLoad={handleMapLoad}
-        >
-          <GoogleMaps />
-        </APIProvider>
+        <div className="page-content">
+          <h1>Map</h1>
+          <p>This map shows the location of every single CitiBike docking station in New York City.</p>
+          <APIProvider 
+            apiKey={"AIzaSyCPpQ44Ra5k-x_mjUTv2o3XtSjbIIkfbUA"} 
+            onLoad={handleMapLoad}
+          >
+            <GoogleMaps />
+          </APIProvider>
+        </div>
       </div>
     </div>
   );

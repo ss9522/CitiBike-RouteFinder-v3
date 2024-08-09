@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import './GoogleMaps.css';
 
 function GoogleMaps() {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    // Initialise G Map
+    // Initialise Google Map
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 40.7128, lng: -74.0060 }, // Centered on New York City
       zoom: 12,
@@ -34,7 +35,14 @@ function GoogleMaps() {
     });
   };
 
-  return <div id="map" style={{ width: '100%', height: '100vh' }} />;
+  return (
+    <div className="google-maps-container">
+      <div className="map-container" id="map" />
+      <div className="info-and-controls">
+        {/* Placeholder for additional controls, info, or buttons */}
+      </div>
+    </div>
+  );
 }
 
 export default GoogleMaps;
