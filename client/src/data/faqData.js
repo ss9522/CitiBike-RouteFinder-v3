@@ -1,5 +1,13 @@
 const faqData = [
     {
+      question: "What is this purpose of this website?",
+      answer: "This website is a prototype for a Citibike route planner. The aim will be to recommend routes based on user preferences and goals, such as scenic routes, exercise routes, or routes with minimal traffic. The goal is to encourage more people to use Citibike for both transportation and recreation."
+    },
+    {
+      question: "What can I do on this website right now?",
+      answer: "You can currently view all of Citibike's docking stations in the NYC metro area. You can leave us feedback on the website and update the feedback at any time as we build this out."
+    },
+    {
       question: "How does using Citibike compare to a gym membership in terms of cost and health benefits?",
       answer: "Citibike can be more cost-effective than a gym membership, especially if you use it frequently. While a gym offers a wider variety of exercises, Citibike provides cardiovascular benefits and the added perk of outdoor exercise. It also integrates physical activity into your daily routine, which can be more sustainable for some people than dedicated gym time."
     },

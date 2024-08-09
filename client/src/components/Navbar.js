@@ -20,11 +20,9 @@ function Navbar() {
       </div>
       <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
         <Link to="/" onClick={toggleMenu}>Home</Link>
-        <Link to="/about" onClick={toggleMenu}>About</Link>
         <Link to="/contact" onClick={toggleMenu}>Contact</Link>
         <Link to="/faq" onClick={toggleMenu}>FAQ</Link>
         <Link to="/map" onClick={toggleMenu}>Map</Link>
-        <Link to="/saved-routes" onClick={toggleMenu}>Saved Routes</Link>
       </div>
       <div className="navbar-hamburger" onClick={toggleMenu}>
         <div className="line"></div>
