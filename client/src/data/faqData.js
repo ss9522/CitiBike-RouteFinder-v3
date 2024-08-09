@@ -29,7 +29,11 @@ const faqData = [
   },
   {
     question: "What unique skills or experiences can you gain from regular CitiBike use?",
-    answer: "Regular CitiBike use can improve your urban navigation skills, increase your knowledge of city layouts, and enhance your ability to plan efficient routes. You might also develop a better sense of traffic patterns and urban safety. These skills can be valuable for both biking and non-biking activities."
+    answer: "Regular CitiBike use can improve your urban navigation skills, increase your knowledge of the city's layout, and enhance your abilities as a \"city-slicker\". You might also develop a better sense of traffic patterns and urban safety. These skills can be valuable for both biking and non-biking activities."
+  },
+  {
+    question: "Hoboken and Jersey City are in the same service area. Do you recommend riding up from Manhattan, across the George Washington Bridge, and back down to Jersey City?",
+    answer: "Absolutely not."
   }
   ];
   
