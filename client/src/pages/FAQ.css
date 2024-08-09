@@ -33,6 +33,7 @@
 }
 
 .faq-answer {
+  text-align: left;
   padding: 15px;
   border-top: 1px solid #ddd;
   background-color: #2e6398;
@@ -40,7 +41,7 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  color: #607D8B; /* Example of a blue-grey text color */
+  color: #FFF; /* Example of a blue-grey text color */
 }
 
 .faq-item.open .faq-answer {

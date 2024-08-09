@@ -29,7 +29,7 @@ const faqData = [
   },
   {
     question: "What unique skills or experiences can you gain from regular CitiBike use?",
-    answer: "Regular CitiBike use can improve your urban navigation skills, increase your knowledge of city layouts, and enhance your ability to plan efficient routes. You might also become more attuned to weather patterns and develop a deeper connection with your city's rhythms and changes across seasons."
+    answer: "Regular CitiBike use can improve your urban navigation skills, increase your knowledge of city layouts, and enhance your ability to plan efficient routes. You might also develop a better sense of traffic patterns and urban safety. These skills can be valuable for both biking and non-biking activities."
   }
   ];
   
